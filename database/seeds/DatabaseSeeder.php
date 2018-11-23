@@ -13,8 +13,8 @@ class DatabaseSeeder extends Seeder
     {
         factory(App\User::class,3)->create()->each(function ($u){
             $u->questions()
-                ->saveMany(factory(App\Question::class,rand(1,5)))
-                ->make();
+                ->saveMany(factory(App\Question::class,rand(1,5))->make()
+                );
         });
 
     }
