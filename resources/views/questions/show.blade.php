@@ -7,18 +7,16 @@
                 <div class="card">
                     <div class="card-header">
                         <div class="d-flex align-items-center">
-                            <h2>Ask Question Questions</h2>
+                            <h1>{{ $question->title }}</h1>
                             <div class="ml-auto">
-                                <a href="{{route('questions.index')}}" class="btn btn-outline-secondary">Back To All Question
+                                <a href="{{route('questions.index')}}" class="btn btn-outline-secondary">Go Back
                                     </a>
                             </div>
                         </div>
                     </div>
 
                     <div class="card-body">
-                        <form action="{{route('questions.store')}}" method="post">
-                           @include('questions.form',['btnText'=>'Ask Question'])
-                        </form>
+                       {!! $question->body_html !!}
                     </div>
                 </div>
             </div>

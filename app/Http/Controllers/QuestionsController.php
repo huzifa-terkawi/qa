@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Question;
 use Illuminate\Http\Request;
+use App\Http\Requests\AskQuestionRequest;
 
 class QuestionsController extends Controller
 {
@@ -29,7 +30,7 @@ class QuestionsController extends Controller
     public function create()
     {
         $question = new Question();
-        return view('questions.create',$question);
+        return view('questions.create')->with('question',$question);
     }
 
     /**
@@ -38,9 +39,10 @@ class QuestionsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(AskQuestionRequest $request)
     {
-        //
+        $request->user()->questions()->create($request->only(['title','body']));
+        return redirect('/questions')->with('success','your question has been submitted');
     }
 
     /**
@@ -51,7 +53,8 @@ class QuestionsController extends Controller
      */
     public function show(Question $question)
     {
-        //
+        $question->increment('views');
+        return view('questions.show')->with('question',$question);
     }
 
     /**
@@ -62,7 +65,7 @@ class QuestionsController extends Controller
      */
     public function edit(Question $question)
     {
-        //
+        return view('questions.edit')->with('question',$question);
     }
 
     /**
@@ -72,9 +75,10 @@ class QuestionsController extends Controller
      * @param  \App\Question  $question
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Question $question)
+    public function update(AskQuestionRequest $request, Question $question)
     {
-        //
+        $question->update($request->only(['title','body']));
+        return redirect('questions')->with('success','Your Question Has Been Updated');
     }
 
     /**
@@ -85,6 +89,7 @@ class QuestionsController extends Controller
      */
     public function destroy(Question $question)
     {
-        //
+        $question->delete();
+        return redirect("questions")->with('success','Question Deleted Successfully');
     }
 }

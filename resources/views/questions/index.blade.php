@@ -16,6 +16,7 @@
                     </div>
 
                     <div class="card-body">
+                        @include('layouts.msg')
                         @foreach($questions as $q)
                             <div class="media">
                                 <div class="d-flex flex-column counters">
@@ -30,7 +31,17 @@
                                     </div>
                                 </div>
                                 <div class="media-body">
-                                    <h3 class="mt-0"><a href="{{ $q->url }}">{{$q->title}}</a></h3>
+                                    <div class="d-flex align-items-center">
+                                        <h3 class="mt-0"><a href="{{ $q->url }}">{{$q->title}}</a></h3>
+                                        <div class="ml-auto">
+                                            <a href="{{route('questions.edit',$q->id)}}" class="btn btn-success btn-sm">update</a>
+                                            <form class="form-delete" action="{{route('questions.destroy',$q->id)}}" method="post">
+                                                {{method_field("DELETE")}}
+                                                @csrf
+                                                <button type="submit" class="btn btn-danger btn-sm">delete</button>
+                                            </form>
+                                        </div>
+                                    </div>
                                     <p class="lead">
                                         Asked By <a href="{{$q->user->url}}">{{$q->user->name}}</a>
                                         <small class="text-muted">{{$q->created_date}}</small>
