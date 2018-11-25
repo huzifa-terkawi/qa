@@ -13521,6 +13521,10 @@ a.text-dark:focus {
   }
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 .navbar-laravel {
   background-color: #fff;
   -webkit-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
@@ -13596,12 +13600,12 @@ a.text-dark:focus {
   color: #adb5bd;
 }
 
-.vote-control.favoriate.favoriated,
-.vote-control.favoriate.favoriated:hover {
-  color: #ffed4a;
+.vote-control a.vote-accepted {
+  color: #38c172;
 }
 
-.vote-control.vote-accepted {
-  color: #38c172;
+.vote-control a.favoriate.favoriated,
+.vote-control a.favoriate.favoriated:hover {
+  color: #ffed4a;
 }
 

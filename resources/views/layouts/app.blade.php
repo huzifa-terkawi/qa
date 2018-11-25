@@ -67,6 +67,9 @@
                                 </div>
                             </li>
                         @endguest
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('questions.index') }}">{{ __('Questions') }}</a>
+                        </li>
                     </ul>
                 </div>
             </div>

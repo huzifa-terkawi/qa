@@ -76,6 +76,7 @@
                             <a href="{{ route('register') }}">Register</a>
                         @endif
                     @endauth
+                    <a class="nav-link" href="{{ route('questions.index') }}">{{ __('Questions') }}</a>
                 </div>
             @endif
 
