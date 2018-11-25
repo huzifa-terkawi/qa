@@ -1,16 +1,14 @@
-
+@import "/../../node_modules/font-awesome/scss/font-awesome.scss";
 // Fonts
 @import url('https://fonts.googleapis.com/css?family=Nunito');
-
 // Variables
 @import 'variables';
-
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 
 .navbar-laravel {
-  background-color: #fff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
 }
 
 .counters {
@@ -18,7 +16,7 @@
     font-size: 10px;
     text-align: center;
 
-    strong{
+    strong {
         display: block;
         font-size: 2em;
     }
@@ -26,27 +24,61 @@
         width: 60px;
         height: 60px;
     }
-    .status{
-        &.unanswered
-        {
+    .status {
+        &.unanswered {
             border: none;
         }
-        &.answered{
-            border : 1px solid $green;
+        &.answered {
+            border: 1px solid $green;
             color: $green;
         }
-        &.answered-accepted
-        {
+        &.answered-accepted {
             background: $green;
-            color:$white;
+            color: $white;
         }
     }
 
-    .view{
+    .view {
         margin-top: 10px;
     }
 }
 
-.form-delete{
+.form-delete {
     display: inline;
+}
+
+.vote-control {
+    min-width: 60px;
+    margin-right: 30px;
+    text-align: center;
+    color: $gray-700;
+    span, a {
+        display: block;
+    }
+
+    span {
+        &.votes-count {
+            font-size: 25px;
+        }
+        &.favoriate-count {
+            font-size: 12px;
+        }
+    }
+
+    a {
+        cursor: pointer;
+        color: $gray-600;
+        &.off, &.off:hover {
+            color: $gray-500;
+        }
+    }
+    &.favoriate {
+        &.favoriated, &.favoriated:hover {
+            color: $warning;
+        }
+    }
+
+    &.vote-accepted {
+        color: $success;
+    }
 }
