@@ -15,7 +15,7 @@
                                     <i class="fa fa-caret-down fa-4x"></i>
                                 </a>
                                 <a href="" title="mark this answer as best answer"
-                                   class="vote-accepted mt-2"><i class="fa fa-check fa-3x"></i>
+                                   class="{{$answer->status}} mt-2"><i class="fa fa-check fa-3x"></i>
                                     <span class="accept-count">140</span>
                                 </a>
                             </div>
