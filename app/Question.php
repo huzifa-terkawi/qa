@@ -54,4 +54,35 @@ class Question extends Model
     {
         return $this->hasMany(Answer::class);
     }
+
+    public function acceptBestAnswer(Answer $answer)
+    {
+        $this->best_answer_id = $answer->id ;
+        $this->save();
+    }
+
+    public function favorites()
+    {
+        //return $this->belongsToMany(User::class,'favorites','question_id','user_id');
+
+        //chain time stamp with created and updated from parent table to child table
+        return $this->belongsToMany(User::class,'favorites')->withTimestamps();
+    }
+
+    public function isFavoriated()
+    {
+        return $this->favorites()->where('user_id',auth()->id())->count()>0;
+    }
+
+    public function getIsFavoritedAttribute()
+    {
+        return  $this->isFavoriated();
+    }
+
+    public function getFavoritedCountAttribute()
+    {
+        return $this->favorites()->count();
+    }
+
+
 }

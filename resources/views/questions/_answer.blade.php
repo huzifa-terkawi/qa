@@ -14,10 +14,26 @@
                                 <a href="" title="This Answer is Not Usefull" class="vote-down off">
                                     <i class="fa fa-caret-down fa-4x"></i>
                                 </a>
-                                <a href="" title="mark this answer as best answer"
-                                   class="{{$answer->status}} mt-2"><i class="fa fa-check fa-3x"></i>
-                                    <span class="accept-count">140</span>
-                                </a>
+                                @can('accept',$answer)
+                                    <a href="" title="mark this answer as best answer"
+                                       class="{{$answer->status}} mt-2"
+                                       onclick="event.preventDefault();document.getElementById('accept-answer-{{$answer->id}}').submit();"
+                                    ><i class="fa fa-check fa-3x"></i>
+
+                                    </a>
+                                    <form action="{{route('answers.accept',$answer->id)}}"
+                                          id="accept-answer-{{$answer->id}}" method="post" style="display: none">
+                                        @csrf
+
+                                    </form>
+                                @else
+                                    @if($answer->is_best)
+                                        <a href="" title="accepted answer" class="{{$answer->status}} mt-2">
+                                            <i class="fa fa-check fa-3x"></i>
+                                        </a>
+                                        @endif
+
+                                @endcan
                             </div>
                             <div class="media-body">
                                 {!! $answer->body_html !!}

@@ -46,4 +46,13 @@ class User extends Authenticatable
         $grav_url = "https://www.gravatar.com/avatar/" . md5(strtolower(trim($email))) . "?s=" . $size;
         return $grav_url;
     }
+
+    // user could favorite many question
+    public function favorites()
+    {
+        //return $this->belongsToMany(Question::class,'favorites','user_id','question_id');
+
+        //chain time stamp with created and updated from parent table to child table
+        return $this->belongsToMany(Question::class,'favorites')->withTimestamps();
+    }
 }
