@@ -7,12 +7,26 @@
                     @foreach($answers as $answer)
                         <div class="media">
                             <div class="d-flex flex-column vote-control">
-                                <a href="" title="Is Answer Usefull" class="vote-up">
+                                <a href="" title="Is Answer Usefull" class="vote-up {{ Auth::guest() ?'off':'' }}"
+                                   onclick="event.preventDefault();document.getElementById('vote-answer-up-{{$answer->id}}').submit();">
                                     <i class="fa fa-caret-up fa-4x"></i>
+                                    <form action="/answers/{{$answer->id}}/vote" method="POST"
+                                          id="vote-answer-up-{{$answer->id}}"   style="display: none">
+                                        @csrf
+                                        <input type="hidden" name="vote" value="1">
+                                    </form>
                                 </a>
-                                <span class="votes-count">120</span>
-                                <a href="" title="This Answer is Not Usefull" class="vote-down off">
+
+                                <span class="votes-count">{{$answer->votes_count}}</span>
+
+                                <a href="" title="This Answer is Not Usefull" class="vote-down {{ Auth::guest() ?'off':'' }}"
+                                   onclick="event.preventDefault();document.getElementById('vote-answer-down-{{$answer->id}}').submit();">
                                     <i class="fa fa-caret-down fa-4x"></i>
+                                    <form action="/answers/{{$answer->id}}/vote" method="POST"
+                                          id="vote-answer-down-{{$answer->id}}"   style="display: none">
+                                        @csrf
+                                        <input type="hidden" name="vote" value="-1">
+                                    </form>
                                 </a>
                                 @can('accept',$answer)
                                     <a href="" title="mark this answer as best answer"

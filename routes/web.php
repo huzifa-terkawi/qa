@@ -37,3 +37,4 @@ Route::delete('/questions/{question}/favorite','FavoriteController@destroy')->na
 
 
 Route::post('/questions/{question}/vote','VoteQuestionController');
+Route::post('/answers/{answer}/vote','VoteAnswerController');

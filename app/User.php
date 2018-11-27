@@ -74,15 +74,34 @@ class User extends Authenticatable
         $v = $this->voteQuestions();
         if($v->where("votable_id",$question->id)->exists()){
             //$v->where("votable_id",$question->id)->delete();
-            //$v->updateExistingPivot($question,["vote"=>$vote]);
-            $v->where("votable_id",$question->id)->detach($question->id);
+            $v->updateExistingPivot($question,["vote"=>$vote]);
+            //$v->where("votable_id",$question->id)->detach($question->id);
         }
-
+        else
         $v->attach($question,["vote"=>$vote]);
         $question->load("votes");
-        $up = (int)($question->votes()->where('vote',1)->sum('vote'));//remove wherePiviot
-        $down = (int)($question->votes()->where('vote',-1)->sum('vote'));
+        $up = (int)($question->votes()->wherePivot('vote',1)->sum('vote'));//remove wherePivot
+        $down = (int)($question->votes()->wherePivot('vote',-1)->sum('vote'));
         $question->votes_count = $up + $down -1;
         $question->save();
     }
+
+
+    public function voteAnswer(Answer $answer,$vote)
+    {
+        $v = $this->voteAnswers();
+        if($v->where("votable_id",$answer->id)->exists()){
+            //$v->where("votable_id",$question->id)->delete();
+            $v->updateExistingPivot($answer,["vote"=>$vote]);
+            //$v->where("votable_id",$answer->id)->detach($answer->id);
+        }
+        else
+        $v->attach($answer,["vote"=>$vote]);
+        $answer->load("votes");
+        $up = (int)($answer->votes()->wherePivot('vote',1)->sum('vote'));//remove wherePiviot
+        $down = (int)($answer->votes()->wherePivot('vote',-1)->sum('vote'));
+        $answer->votes_count = $up + $down ;
+        $answer->save();
+    }
+
 }

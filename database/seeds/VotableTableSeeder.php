@@ -13,7 +13,7 @@ class VotableTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table("votables")->where("votable_type",'App\Question')->delete();
+        DB::table("votables")->delete();
         $users = User::all();
         $user_count = $users->count();
         $votes=[-1,1];
@@ -24,6 +24,12 @@ class VotableTableSeeder extends Seeder
                 $user->voteQuestions()->attach($question,["vote"=>$votes[rand(0,1)]]);
             }
         }
-
+        foreach (Answer::all() as $answer){
+            $rndUser = rand(1,$user_count);
+            for ($i = 0 ; $i < $rndUser ; $i++){
+                $user = $users[$i];
+                $user->voteAnswers()->attach($answer,["vote"=>$votes[rand(0,1)]]);
+            }
+        }
     }
 }
