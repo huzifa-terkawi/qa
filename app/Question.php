@@ -84,5 +84,13 @@ class Question extends Model
         return $this->favorites()->count();
     }
 
+    //polymorphic relation many-to-many-to-many
+    public function votes()
+    {
+        return $this->morphToMany(User::class,"votable");
+    }
 
+
+    public function upVotes(){return $this->votes()->wherePiviot('vote',1);}
+    public function downVotes(){return $this->votes()->wherePiviot('vote',-1);}
 }

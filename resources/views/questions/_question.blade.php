@@ -17,27 +17,48 @@
                 @include('layouts.msg')
                 <div class="media">
                     <div class="d-flex flex-column vote-control">
-                        <a href="" title="Is Question Usefull" class="vote-up">
+
+                        <a href="" title="Is Question Usefull" class="vote-up {{ Auth::guest() ?'off':'' }}"
+                           onclick="event.preventDefault();document.getElementById('vote-question-up-{{$question->id}}').submit();">
                             <i class="fa fa-caret-up fa-4x"></i>
+                            <form action="/questions/{{$question->id}}/vote" method="POST"
+                                  id="vote-question-up-{{$question->id}}"   style="display: none">
+                                @csrf
+                                <input type="hidden" name="vote" value="1">
+                            </form>
                         </a>
-                        <span class="votes-count">120</span>
-                        <a href="" title="This Question is Not Usefull" class="vote-down off">
+
+                        <span class="votes-count">{{$question->votes_count}}</span>
+
+                        <a href="" title="This Question is Not Usefull" class="vote-down {{ Auth::guest() ?'off':'' }}"
+                           onclick="event.preventDefault();document.getElementById('vote-question-down-{{$question->id}}').submit();">
                             <i class="fa fa-caret-down fa-4x"></i>
+                            <form action="/questions/{{$question->id}}/vote" method="POST"
+                                  id="vote-question-down-{{$question->id}}"   style="display: none">
+                                @csrf
+                                <input type="hidden" name="vote" value="-1">
+                            </form>
                         </a>
+
                         <a href="" title="Click to mark as favoriate question (Click Again to undo)"
                            class="favoriate  mt-2 {{ Auth::guest() ? 'off' : ($question->is_favorited ? 'favoriated':'') }}"
                            onclick="event.preventDefault();document.getElementById('favorite-question-{{$question->id}}').submit();">
                             <i class="fa fa-star fa-3x"></i>
                             <span class="favoriate-count">{{$question->favorited_count}}</span>
+
+                            <form action="/questions/{{ $question->id }}/favorite" method="POST"
+                                  id="favorite-question-{{$question->id}}"   style="display: none">
+                                @csrf
+                                @if($question->is_favorited)
+                                    @method('DELETE')
+                                @endif
+                            </form>
+
                         </a>
 
-                        <form action="/questions/{{ $question->id }}/favorite" method="POST"
-                              id="favorite-question-{{$question->id}}"   style="display: none">
-                            @csrf
-                            @if($question->is_favorited)
-                                @method('DELETE')
-                            @endif
-                        </form>
+
+
+
 
                     </div>
                     <div class="media-body">

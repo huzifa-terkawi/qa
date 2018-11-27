@@ -55,4 +55,34 @@ class User extends Authenticatable
         //chain time stamp with created and updated from parent table to child table
         return $this->belongsToMany(Question::class,'favorites')->withTimestamps();
     }
+
+    //polymorphic relation many-to-many-to-many
+    public function voteQuestions()
+    {
+        //relate this to votable.user_id with Question in votable_id and type vo
+        return $this->morphedByMany(Question::class,'votable'); // table name is singular
+    }
+
+    //polymorphic relation many-to-many-to-many
+    public function voteAnswers()
+    {
+        //relate this to votable.user_id with Answer in votable_id and type vo
+        return $this->morphedByMany(Answer::class,'votable'); // table name is singular
+    }
+
+    public function voteQuestion(Question $question,$vote){
+        $v = $this->voteQuestions();
+        if($v->where("votable_id",$question->id)->exists()){
+            //$v->where("votable_id",$question->id)->delete();
+            //$v->updateExistingPivot($question,["vote"=>$vote]);
+            $v->where("votable_id",$question->id)->detach($question->id);
+        }
+
+        $v->attach($question,["vote"=>$vote]);
+        $question->load("votes");
+        $up = (int)($question->votes()->where('vote',1)->sum('vote'));//remove wherePiviot
+        $down = (int)($question->votes()->where('vote',-1)->sum('vote'));
+        $question->votes_count = $up + $down -1;
+        $question->save();
+    }
 }

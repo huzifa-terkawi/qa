@@ -59,4 +59,9 @@ class Answer extends Model
         return $this->question->best_answer_id == $this->id;
     }
 
+    //polymorphic relation many-to-many-to-many
+    public function votes()
+    {
+        return $this->morphToMany(User::class,"votable");
+    }
 }
